@@ -3,6 +3,7 @@ import { Toaster } from "sonner";
 import "./globals.css";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import { ClerkProvider } from "@clerk/nextjs";
+import { ConvexClientProvider } from "@/components/convex-client-provider";
 
 const font = Work_Sans({ subsets: ["latin"] });
 
@@ -87,14 +88,17 @@ export default function RootLayout({ children }) {
           logoImageUrl: "/favicon.png",
         },
       }}
+      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
     >
-      <html lang="en">
-        <body className={`${font.className}`}>
-          {children}
-          <Toaster richColors />
-          <ScrollToTopButton />
-        </body>
-      </html>
+      <ConvexClientProvider>
+        <html lang="en">
+          <body className={`${font.className}`}>
+            {children}
+            <Toaster richColors />
+            <ScrollToTopButton />
+          </body>
+        </html>
+      </ConvexClientProvider>
     </ClerkProvider>
   );
 }
